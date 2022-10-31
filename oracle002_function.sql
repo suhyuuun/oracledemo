@@ -501,7 +501,8 @@ ROWID (oracle에서만 제공되는 명령문)
     블록 번호(10~15) : 데이터 파일 내부에서 어느 블록에 데이터가 있는지 알려준다.
     데이터 번호(16~18) : 데이터 블록에 데이터가 저장되어 있는 순서를 의미한다.
     
-block size 확인
+[block size 확인] -> 8kbyte가 저장됨
+
 SQL> conn sys/a1234 as sysdba
 Connected.
 SQL> show user
@@ -511,7 +512,17 @@ SQL> show parameter db_block_size
 NAME                                 TYPE                    VALUE
 ------------------------------------ ----------------------  -------------------
 db_block_size                        integer                  8192
+
+ -> 블록의 사이즈가 8192라는 뜻
+ 
+ SQL> show parameter db_file_multiblock_read_count
+
+NAME                                 TYPE                    VALUE
+------------------------------------ ---------------------  --------------------
+db_file_multiblock_read_count        integer                  128
+-> 블록의 개수가 128개라는 뜻
 ==============================================================================*/
 
 SELECT rowid, first_name, salary
 FROM employees;
+
