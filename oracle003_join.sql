@@ -47,13 +47,15 @@ ORDER BY e.employee_id;
 SELECT e.first_name, e.job_id, j.min_salary, j.max_salary
 FROM employees e, jobs j
 WHERE e.job_id = j.job_id AND e.job_id = 'FI_MGR';
-
-SELECT e.first_name, e.job_id, j.min_salary, j.max_salary
-FROM employees e inner join jobs j
-ON e.job_id = j.job_id AND e.job_id = 'FI_MGR';
-
 /*
  선행테이블(Driving table) - 후행테이블(Driven table) 
  1. 왼쪽 -> 오른쪽
  2. 자식 -> 부모
 */
+SELECT e.first_name, e.job_id, j.min_salary, j.max_salary
+FROM employees e inner join jobs j
+ON e.job_id = j.job_id
+WHERE e.job_id = 'FI_MGR';
+
+
+
