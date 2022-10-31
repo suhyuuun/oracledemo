@@ -288,3 +288,129 @@ FROM employees;
 SELECT first_name || '님은 ' || to_char(hire_date,'yyyy') || '년 ' || ltrim(to_char(hire_date,'mm'),0) || '월 ' || ltrim(to_char(hire_date,'dd'),0) || '일에 입사했습니다'
 FROM employees;
 
+/*==============================================================================
+일반함수
+1. nvl(컬럼, 대체값) : 첫번째 인자값이 null이면 0으로 대체해서 출력한다.
+    - 대체할 값이 숫자이면 두번째 인자값에 숫자를 지정한다.
+    - 대체할 값이 문자이면 두번째 인자값에 문자를 지정한다.
+    - 대체할 값이 날짜이면 두번째 인자값에 날짜를 지정한다.
+==============================================================================*/
+
+-- nvl(컬럼, 대체값) : 첫번째 인자값이 null이면 0으로 대체해서 출력한다.
+SELECT commission_pct, nvl(commission_pct, 0) -- select에서 가지고 올때 데이터값이 변하지는 않음
+FROM employees;
+
+SELECT first_name, manager_id
+FROM employees;
+
+-- 문자로 바꾸고 싶은데 데이터타입이 문자가 아닌경우 to_char() 사용하기
+SELECT first_name, manager_id, nvl(to_char(manager_id),'CEO')
+FROM employees;
+
+/*==============================================================================
+일반함수(NULL)
+2. nvl2(컬럼, 대체값1, 대체값2) : 컬럽의 값이 null 아니면 대체값1, null이면 대체값2 출력
+==============================================================================*/
+
+SELECT commission_pct, nvl2(commission_pct,1,0)
+FROM employees;
+
+SELECT count(*) AS 전체사원수, sum( nvl2(commission_pct,1,0)) AS "커미션지급 사원 수", count(*)-sum( nvl2(commission_pct,1,0)) AS "커미션미지급사원 수"
+FROM employees;
+
+/*==============================================================================
+일반함수(NULL)
+3. NULLIF(컬럼, 비교값) 
+    - 컬럼값과 비교값이 같으면 null로 리턴하고 같지 않으면 컬럼의 값으로 리턴
+==============================================================================*/
+
+-- commission_pct의 값이 0.4이면 NULL로 리턴
+SELECT commission_pct, NULLIF(commission_pct, 0.4)
+FROM employees;
+
+/*==============================================================================
+일반함수(NULL)
+4. coalesce(컬럼1, 컬럼2) 
+    - 컬럼1, 컬럼2 모두 NULL이 아니면 컬럼1을 리턴한다.
+    - 컬럼1, 컬럼2 중 NULL이 아닌 컬럼을 리턴한다.
+    - 컬럼1, 컬럼2 모두 NULL이면 NULL을 리턴한다.
+==============================================================================*/
+
+SELECT first_name, commission_pct, salary, coalesce(commission_pct, salary)
+FROM employees;
+
+SELECT first_name, commission_pct, commission_pct, coalesce(commission_pct, commission_pct)
+FROM employees;
+
+/*==============================================================================
+decode(컬럼, 값1, 처리1, 값2, 처리2, 그 밖의 처리)
+java의 switch-case문과 비슷
+==============================================================================*/
+
+-- department_id이 10이면 'ACCOUNTING', 20이면 'RESEARCH', 30이면 'SALES', 40이면 'OPERATIONS', 그 외 'OTHERS'
+SELECT first_name, department_id, decode(department_id, 10, 'ACCOUNTING', 20, 'RESEARCH', 30, 'SALES', 40, 'OPERATIONS', 'OTHERS') AS department_name
+FROM employees;
+
+-- 직급이 'PR_REP'인 사원은 5%, 'SA_MAN'인 사람은 10%, 'AC_NGR'인 사람은 '15%', 'FU_CLERK'인 사원은 20% 인상
+SELECT job_id, salary, decode(job_id, 'PR_REP', salary*1.05, 'SA_MAN',salary*1.1, 'AC_MGR', salary*1.15, 'PU_CLERK', salary*1.2, salary) AS newsal
+FROM employees;
+
+
+/*==============================================================================
+case when 조건식1 then 처리1
+     when 조건식2 then 처리2
+     when 조건식3 then 처리3
+     else 처리n
+end AS alias(AS값은 필요한 경우에만 사용);
+
+java에서 다중 if~else문과 비슷
+==============================================================================*/
+
+-- 입사일(hire_date) 1~3이면 1분기, 4 ~ 6이면 2분기, 7~9이면 3분기, 10~12면 4분기로 처리하고 사원명(first_name), 입사일(hire_date), 분기를 출력하시오.
+SELECT first_name, hire_date, 
+       case when to_char(hire_date,'mm') <=3 then '1분기'
+            when to_char(hire_date,'mm') <=6 then '2분기'
+            when to_char(hire_date,'mm') <=9 then '3분기'
+            when to_char(hire_date,'mm') <=12 then '4분기'
+            end AS 분기
+FROM employees;
+
+-- salary의 값이 10000미만이면 '하' 10000이상 20000미만이면 '중' 20000이상이면 '상'
+SELECT first_name, salary,
+        case when salary < 10000 then '하'
+             when salary < 20000 then '중'
+             else '상'
+             end AS "구분"
+FROM employees;
+
+/*==============================================================================
+집계함수(Aggregate Function), 그룹함수(Group Function)
+max([DISTINCT | ALL] 컬럼) - 최대값 (기본은 ALL)
+min([DISTINCT | ALL] 컬럼) - 최소값
+count([DISTINCT | ALL] 컬럼) - 갯수 (컬럼에서 null값이 아닌 갯수만 가지고 옴)
+sum([DISTINCT | ALL] 컬럼) - 합계
+avg([DISTINCT | ALL] 컬럼) - 평균
+stddev([DISTINCT | ALL] 컬럼) - 표준편차
+variance([DISTINCT | ALL] 컬럼)  - 분산
+==============================================================================*/
+
+SELECT max(salary), min(salary), count(salary), sum(salary), avg(salary), stddev(salary), variance(salary)
+FROM employees;
+
+SELECT count(commission_pct)
+FROM employees; --35
+
+SELECT count(employee_id)
+FROM employees; -- 컬럼의 값이 null값을 가질 수 없는 컬럼 notnull 가지고 있는 컬럼 
+
+SELECT count(*)
+FROM employees; --모든 컬럼 출력
+
+SELECT DISTINCT count(commission_pct)
+FROM employees;
+
+SELECT  count(DISTINCT commission_pct)
+FROM employees;
+
+SELECT count(ALL commission_pct)
+FROM employees
