@@ -1,0 +1,290 @@
+/*==============================================================================
+SQL(Strcutured Query Language)함수
+1. 단일행함수 : 행 하나당 하나의 결과를 출력한다.
+             (문자함수, 숫자함수, 날짜함수, 변환함수, 일반함수)
+2. 복수행함수 : 행 여러개당 하나의 결과를 출력한다.
+             (합계, 평균, 최대, 최소, 갯수)
+==============================================================================*/
+
+-- SELECT문에서는 반드시 테이블명을 명시해야 한다.
+-- 그래서 SELECT절에 식이나 특정함수를 이용해서 결과값을 가져올때 사용할 수 있는 DUAL이라는 테이블을 제공하고 있다.
+SELECT 3 + 1
+FROM dual; -- oracle은 SELECT와 FROM이 반드시 함께 있어야함
+
+SELECT sysdate  -- 오늘의 날짜 출력
+FROM dual; 
+
+/*==============================================================================
+문자함수
+sql에서 문자를 바꿔주는 것은 좋은 방법이 아님
+가공이 되면 인덱스가 제공이 안되기 때문
+==============================================================================*/
+
+-- 문자의 첫글자만 대문자로 변경해주는 함수
+SELECT initcap('korea hello')
+FROM dual;
+
+-- 모든 문자를 대문자로 변경해주는 함수
+SELECT upper('korea hello') /*at java : toUpperCase()*/
+FROM dual;
+
+SELECT first_name, upper(first_name), last_name, upper(last_name)
+FROM  employees;
+
+--모든 문자를 소문자로 변경해주는 함수
+SELECT lower('korea hello')
+FROM dual;
+
+SELCET first_name, lower(first_name), last_name, lower(last_name)
+FROM employees;
+
+-- employees 테이블 first_name에서 대소문자 구분없이 'Ja'가 포함이 된 first_name, salary을 출력하라
+SELECT first_name, salary
+FROM employees
+WHERE upper(first_name) LIKE upper('%Ja%');
+
+-- 문자의 길이를 리턴해주는 함수
+SELECT length('korea')
+FROM dual;
+
+SELECT length('한글')
+FROM dual;
+
+-- 테이블 생성(실제로 테이블을 생성할때에는 숫자사용하지 않음)
+CREATE TABLE user1(
+    data varchar2(5)
+);
+
+DESC user1;
+
+SELECT*FROM user1;
+
+INSERT INTO user(data)
+VALUES('korea');
+
+SELECT * FROM user1;
+
+-- 오류보고 ORA-12899: value too large for column "HR"."USER1"."DATA" (actual: 11, maximum: 5)
+INSERT INTO user1(data)
+VALUES ('south korea');
+
+-- 오류보고 ORA-12899: value too large for column "HR"."USER1"."DATA" (actual: 6, maximum: 5), 한글은 한글자당 3byte
+INSERT INTO user1(data)
+VALUES('한글');
+
+-- 특정범위의 문자를 추출해주는 함수
+-- substr('문자', 시작위치, 갯수)
+-- oracle에서는 인덱스가 1부터 시작 cf) java 인덱스 0부터 시작
+SELECT substr('oracle test',1,4) -- /*oracle : substr(start, 갯수), java : substring(start, end)*/
+FROM dual;
+
+SELECT substr('oracle test',-3,4) --마이너스이면 뒤에서 부터
+FROM dual;
+
+SELECT substr('오라클 테스트',3,4)
+FROM dual;
+
+SELECT substr('오라클 테스트',-3,4)
+FROM dual;
+
+-- 특정문자의 인덱스를 추출해주는 함수이다.
+SELECT instr('korea','or')
+FROM dual;
+
+SELECT instr('한국자바', '자바')
+FROM dual;
+
+-- 주어진 문자열에서 왼쪽으로 특정문자를 채우는 함수
+SELECT lpad('korea',8,'*') -- (left padding, 왼쪽 여백)
+FROM dual;
+
+-- 주어진 문자열에서 오른쪽으로 특정문자를 채우는 함수
+SELECT rpad('korea',8,'*') --(right padding, 왼쪽 여백)
+FROM dual;
+
+-- 주어진 문자열에서 왼쪽의 특정문자를 삭제하는 함수
+SELECT ltrim('***korea','*')
+FROM dual;
+
+-- 주어진 문자열에서 오른쪽으로 특정문자를 삭제하는 함수
+SELECT rtrim('korea***', '*')
+FROM dual;
+
+-- 주어진 문자열에서 양쪽 특정문자를 삭제하는 함수
+SELECT trim('*' from '***korea***')
+FROM dual;
+
+-- 주어진 문자열에서 왼쪽의 공백제거
+SELECT ltrim('   korea')
+FROM dual;
+
+-- 주어진 문자열에서 왼쪽의 공백제거 및 길이 확인
+SELECT '   korea',length('   korea'), ltrim('   korea'), length(ltrim('   korea'))
+FROM dual;
+
+-- 주어진 문자열에서 오른쪽의 공백제거 및 길이 확인
+SELECT 'korea   ', length('korea   '),rtrim('korea   '),length(rtrim('korea   '))
+FROM dual;
+
+-- 주어진 문자열에서 양쪽의 공백제거
+SELECT trim(' ' from '   korea   '), length(trim(' 'from '   korea   '))
+FROM dual;
+
+--주어진 문자의 아스키 코드값을 구하는 함수
+SELECT ascii('A') --65
+FROM dual;
+
+-- 주어진 아스키 코드값의 문자를 구하는 함수
+SELECT chr(65) -- A
+FROM dual;
+
+-- 주어진 문자를 연결하는 함수
+SELECT concat('java','jsp')
+FROM dual;
+
+SELECT 'java' || 'jsp'
+FROM dual;
+
+/*==============================================================================
+숫자함수
+==============================================================================*/
+
+-- 3.55를 소수점 1의 자리까지 구하시오(반올림)
+SELECT round(3.55) -- SELECT round(3.55, 0)과 같은 의미 0은 생략가능
+FROM dual;
+
+SELECT round(3.55, 1)
+FROM dual;
+
+--42523.55을 십의자리수까지 반올림을 구하라
+SELECT round(42523.55,-1)
+FROM dual;
+
+--42523.55을 일의 자리수까지 반올림을 구하라
+SELECT round(42523.55,0) -- SELECT round(42523.55)와 같은 의미 0은 생략가능
+FROM dual;
+
+-- 256.78을 무조건 올림하라 (자릿값 별도로 지정불가)
+SELECT ceil(256.78)
+FROM dual;
+
+-- 289.78에서 소수이하는 무조건 버림하라 (자릿값 별도로 지정불가)
+SELECT floor(289.78)
+FROM dual;
+
+-- 2의 3승(거듭제곱) 구하기
+SELECT power(2,3)
+FROM dual; --8
+
+-- 25의 제곱근 구하기
+SELECT sqrt(25)
+FROM dual; --5
+
+-- 나머지 구하기
+SELECT mod(10, 3)
+FROM dual;
+
+-- 빈도수 구하는 것, 오라클에서는 제공하지 않음
+/*SELECT mode (2,5,3,2)
+FROM dual; */
+
+/*==============================================================================
+날짜 함수
+==============================================================================*/
+
+-- 현재 시스템에서 제공해주는 오늘의 날짜 구하는 함수
+SELECT sysdate
+FROM dual;
+
+-- 내일의 값 구하기
+SELECT sysdate + 1
+FROM dual;
+
+-- 어제의 값 구하기
+SELECT sysdate -1
+FROM dual;
+
+-- 오늘을 기준으로 10개월 이후의 값 구하기
+SELECT add_months(sysdate, 10)
+FROM dual;
+
+/*==============================================================================
+변환형 함수
+
+                     숫자           문자          날짜
+                  to_number() <-> to_char() <-> to_date()
+==============================================================================*/
+
+-- 숫자 -> 문자
+SELECT to_char(2532, '999,999.99') -- 9로 자릿값을 지정, 소숫점자리는 무조건 확보해줌, 정수자리는 해당되는 자리에 실제값이 없으면 자리는 확보 숫자는 무시
+FROM dual;
+
+SELECT to_char(2532, '9,999.99') 
+FROM dual;
+
+SELECT to_char(2532, '000,000,00') -- 0으로 자릿값을 지정, 정수자리는 무조건 확보해줌, 소숫점자리는 해당되는 자리에 실제값이 없으면 무시
+FROM dual;
+
+-- 각 나라의 통화를 표현 해줄때 L기호를 사용한다.
+SELECT to_char(2532, 'L999,999.99')
+FROM dual;
+
+-- 날짜 -> 문자
+SELECT  to_char(sysdate, 'yyyy-mm-dd hh:mi:ss day') --월 : mm, 분 : mi, hh: 12시간, day : 월요일
+FROM dual;
+
+SELECT  to_char(sysdate, 'yyyy-mm-dd hh:mi:ss dy') --월 : mm, 분 : mi, hh: 12시간, dy : 월
+FROM dual;
+
+SELECT  to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss day') /*월 : mm, 분 : mi, hh24: 24시간*/
+FROM dual;
+
+/*
+at java
+//HH : 24시간, hh: 12시간
+//a 오전&오후, EEEE 요일(ex. 목요일)/EEE 요일이 빠짐 (ex. 목), HH 24hr hh 12hr
+		String pattern = "yyyy-MM-dd HH:mm:ss a EEEE"; 
+*/
+
+/*==============================================================================
+to_number()
+문자 -> 숫자
+==============================================================================*/
+
+SELECT '253' || '12'
+FROM dual; --25312
+
+SELECT concat('253','12')
+FROM dual; --25312
+
+SELECT '253' + '12'
+FROM dual; --265 (자동형변환)
+
+SELECT to_number('253') + to_number('12')
+FROM dual; --265
+
+/*==============================================================================
+to_date()
+문자 -> 날짜
+==============================================================================*/
+
+SELECT to_date('2022-10-14')
+FROM dual;
+
+--------------------------------------------------------------------------------
+
+SELECT first_name, hire_date
+FROM employees;
+
+-- as(alias) 사용시에만 쌍따옴표사용
+SELECT salary * 12 as "b o n u s"
+FROM employees;
+
+-- hire_date(입사일)을 이용해서 '홍길동님은 2003년 1월 3일에 입사했습니다.'로 출력하는 querry을 작성하시오.
+SELECT first_name || '님은 ' || to_char(hire_date,'yyyy') || '년 ' || to_char(hire_date,'mm') || '월 ' || to_char(hire_date,'dd') || '일에 입사했습니다'
+FROM employees;
+
+-- ltrim 사용해서 0제거
+SELECT first_name || '님은 ' || to_char(hire_date,'yyyy') || '년 ' || ltrim(to_char(hire_date,'mm'),0) || '월 ' || ltrim(to_char(hire_date,'dd'),0) || '일에 입사했습니다'
+FROM employees;
+
