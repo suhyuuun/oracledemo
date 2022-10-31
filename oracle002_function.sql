@@ -211,8 +211,8 @@ FROM dual;
 /*==============================================================================
 변환형 함수
 
-                     숫자           문자          날짜
-                  to_number() <-> to_char() <-> to_date()
+            숫자           문자          날짜
+         to_number() <-> to_char() <-> to_date()
 ==============================================================================*/
 
 -- 숫자 -> 문자
@@ -413,4 +413,105 @@ SELECT  count(DISTINCT commission_pct)
 FROM employees;
 
 SELECT count(ALL commission_pct)
+FROM employees;
+
+-- 집계함수와 단순컬럼은 함께 사용할 수 없다. (출력되는 레코드(row : 행의 갯수)수가 다르기 때문이다)
+-- ORA-00937: not a single-group group function(단일 그룹의 그룹함수가 아닙니다.)
+SELECT first_name, count(*)
+FROM employees;
+
+-- 그룹함수와 단순컬럼을 사용하기 위해서는 단순컬럼을 그룹화 해야 한다.(GROUP BY)
+SELECT department_id, count(*)
 FROM employees
+GROUP BY department_id
+ORDER BY department_id;
+
+-- 50이하인 부서에 대해서 NULL이 아닌 부서별의 직원수를 출력하시오
+SELECT department_id, count(*)
+FROM employees
+WHERE department_id <= 50 AND department_id IS NOT NULL
+GROUP BY department_id;
+
+SELECT department_id, count(*)
+FROM employees
+WHERE department_id IS NOT NULL
+GROUP BY department_id
+HAVING department_id<=50;
+
+-- 부서별의 직원수가 5이하인 경우만 출력하시오
+SELECT department_id, count(*)
+FROM employees
+GROUP BY department_id
+HAVING count(*) < 5; -- WHERE절에서는 그룹함수 사용불가
+
+-- 업무별 (job_id)급여합계를 출력하시오
+SELECT job_id, sum(salary)
+FROM employees
+GROUP BY job_id;
+
+-- 부서별 최소급여, 최대급여를 최소값과 최대값이 다른 경우에만 부서별 오름차순으로 출력하시오.
+SELECT department_id, min(salary), max(salary)
+FROM employees
+GROUP BY department_id
+HAVING min(salary) != max(salary)
+ORDER BY department_id;
+-- 10  40  70  null : 최소급여와 최대급여가 같음
+
+-- 내림차순으로 정렬하면 NULL이 최상위에 출력
+SELECT department_id
+FROM employees
+ORDER BY department_id DESC; -- 내림차순 / oracle에서는 null값을 큰 값으로 받아들임, mssql에서는 가장 작은 값으로 받아들임
+
+
+/*==============================================================================
+ROWNUM (oracle에서만 제공되는 명령문)
+1. oracle의 SELECT문 결과에 대해서 논리적인 일련번호를 부여한다.
+2. ROWNUM은 조회되는 행수를 제한할 때 많이 사용한다.
+3. rownum = 1, rownum <= 3, rownum < 3 (가능)
+   rownum = 3, rownum >= 3, rownum > 3 (불가능)
+==============================================================================*/
+
+SELECT rownum, first_name, salary 
+FROM employees; --출력가능
+
+SELECT rownum, first_name, salary
+FROM employees
+WHERE rownum = 1; -- =(등호)를 사용할 때에는 rownum값이 1일때만 출력가능
+
+SELECT rownum, first_name, salary
+FROM employees
+WHERE rownum = 3; -- 출력불가
+
+SELECT rownum, first_name, salary
+FROM employees
+WHERE rownum <= 3; -- 출력가능 (작거나 같다)
+
+SELECT rownum, first_name, salary
+FROM employees
+WHERE rownum >= 3; --출력불가 (크거나 같다)
+
+/*==============================================================================
+ROWID (oracle에서만 제공되는 명령문)
+1.oracle에서 데이터를 구분할 수 있는 유일한 값이다.
+2.SELECT문에서 rowid를 사용할 수 있다.
+3.rowid을 통해서 데이터가 어떤 데이터파일, 어느 블록에 저장되어 있는지 알 수 있다.
+4.rowid 구조 (총 18자리)
+    오브젝트 번호(1~6) : 오브젝트별로 유일한 값을 가지고 있으며, 해당 오브젝트가 속해 있는 값이다.
+    파일 번호(7~9) : 테이블스페이스(tablespace)에 속해 있는 데이터 파일에 대한 상대 파일번호이다.
+    블록 번호(10~15) : 데이터 파일 내부에서 어느 블록에 데이터가 있는지 알려준다.
+    데이터 번호(16~18) : 데이터 블록에 데이터가 저장되어 있는 순서를 의미한다.
+    
+block size 확인
+SQL> conn sys/a1234 as sysdba
+Connected.
+SQL> show user
+USER is "SYS"
+SQL> show parameter db_block_size
+
+NAME                                 TYPE                    VALUE
+------------------------------------ ----------------------  -------------------
+db_block_size                        integer                  8192
+==============================================================================*/
+
+SELECT rowid, first_name, salary
+FROM employees;
