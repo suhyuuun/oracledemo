@@ -175,7 +175,7 @@ SELECT w.employee_id AS 사원번호,
        w.manager_id AS 매니저번호,
        m.first_name AS 매니저이름
 FROM employees w, employees m
-WHERE w.manager_id = m.employee_id -- 순서 반대로 하면 안됨
+WHERE w.manager_id = m.employee_id -- 순서 반대로 하면 안됨 / 연결할 것이 없으면 작성이 되지 않아도 됨
 ORDER BY w.employee_id; 
 
 -- 2) ansi SELF JOIN
