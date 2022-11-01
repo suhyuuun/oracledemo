@@ -2,17 +2,38 @@
        문제
  -------------------------------------------------------------*/
 1) department_id가 60인 부서의 도시명을 알아내는 SELECT문장을 기술하시오
-SELECT departmnet_id
-FROM employees
-WHERE (
-        
-        );
+SELECT l.city
+FROM locations l, departments d
+WHERE l.location_id = d.location_id
+AND d.department_id IN (
+                            SELECT department_id
+                            FROM employees
+                            WHERE department_id = 60
+                        );
     
 2)사번이 107인 사원과 부서가같고,167번의 급여보다 많은 사원들의 사번,이름(first_name),급여를 출력하시오.
-   
-                  
+SELECT employee_id, first_name, salary
+FROM employees
+WHERE (department_id, salary) IN (
+                                    SELECT department_id, salary
+                                    FROM employees
+                                    WHERE department_id = ( 
+                                                            SELECT department_id
+                                                            FROM employees
+                                                            WHERE employee_id = 107
+                                                        )
+                                    AND salary > (
+                                                    SELECT salary
+                                                    FROM employees
+                                                    WHERE employee_id = 167
+                                                 );
 3) 급여평균보다 급여를 적게받는 사원들중 커미션을 받는 사원들의 사번,이름(first_name),급여,커미션 퍼센트를 출력하시오.
-    
+SELECT employee_id, first_name, commission_pct
+FROM employees
+WHERE commission_pct IS NOT NULL 
+AND avg(salary) <ALL ( 
+                        SELECT 
+                                        
     
 4)각 부서의 최소급여가 20번 부서의 최소급여보다 많은 부서의 번호와 그부서의 최소급여를 출력하시오.
  
