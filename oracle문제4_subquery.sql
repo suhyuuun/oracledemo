@@ -31,8 +31,11 @@ WHERE (department_id, salary) IN (
 SELECT employee_id, first_name, commission_pct
 FROM employees
 WHERE commission_pct IS NOT NULL 
-AND avg(salary) <ALL ( 
-                        SELECT 
+AND avg(salary) < ANY ( 
+                        SELECT avg(salary)
+                        FROM employees
+                        WHERE commission_pct IS NOT NULL
+                        );
                                         
     
 4)각 부서의 최소급여가 20번 부서의 최소급여보다 많은 부서의 번호와 그부서의 최소급여를 출력하시오.
