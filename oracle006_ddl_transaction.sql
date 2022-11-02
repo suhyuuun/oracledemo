@@ -201,17 +201,22 @@ COMMIT;
 SELECT * FROM emp02
 VALUES(2, 'dong', 8000);
 
-SELECT * FROM emp02;
-
-INSERT INTO emp02
-VALUES(2, 'dong', 8000);
-
-SELECT * FROM emp02;
-
 -- A세션
 SELECT * FROM emp02;
+/*waiting상태가 됨(Lock 상태 발생)*/
 
 INSERT INTO emp02
 VALUES(2, 'dong', 8000);
 
+-- sql앱에서 rollback
+-- 1행에서 삽입되었습니다.
+
+-- B세션
+ROLLBACK; /*취소*/
+
+-- A세션
+-- 1행이 삽입되었습니다.
 commit;
+
+-- B세션
+SELECT * FROM emp02; /*2 dong 8000 확인*/
