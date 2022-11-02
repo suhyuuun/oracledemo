@@ -61,7 +61,9 @@ AND j.job_title = (
                     );
   
 6) 최소 급여를 받는 사원의 이름(first_name), 담당 업무(job_id) 및 급여(salary)를 표시하시오(그룹함수 사용).
-
+SELECT e.first_name, j.job_id, e.salary
+FROM employees e, jobs j
+WHERE 
 				
 7)업무별 평균 급여가 가장 적은  업무(job_id)를 찾아 업무(job_id)와 평균 급여를 표시하시오.
 
