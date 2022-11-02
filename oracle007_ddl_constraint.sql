@@ -334,5 +334,42 @@ WHERE deptno=20;
 SELECT * FROM dept01;
 
 /*
-부모키가 
+부모키가 삭제가 되면 참조되는 키도 삭제가 되도록 cascade을 설정한다.
 */
+
+-- 삽입
+INSERT INTO dept01
+VALUES(20, 'sales');
+
+-- cascade 설정
+ALTER TABLE emp08
+ADD constraint emp08_deptno_fk foreign key(deptno) references dept01(deptno) ON DELETE CASCADE;
+
+SELECT * FROM dept01;
+SELECT * FROM emp08;
+
+DELETE FROM dept01
+WHERE deptno=10;
+
+SELECT * FROM dept01;
+SELECT * FROM emp08;
+
+/*
+ON UPDATE CASCADE은 오라클에서 제공안됨
+해결방법 : trigger
+*/
+
+CREATE OR REPLACE TRIGGER dept_tri
+AFTER UPDATE ON dept01 FOR EACH ROW
+BEGIN
+    UPDATE emp08
+    SET deptno=50
+    WHERE deptno=20;
+END;
+/
+UPDATE dept01
+SET deptno=50
+WHERE deptno=20;
+
+SELECT * FROM dept01;
+SELECT * FROM emp08;
