@@ -11,7 +11,7 @@ AND d.department_id IN (
                             WHERE department_id = 60
                         );
     
-2)사번이 107인 사원과 부서가같고,167번의 급여보다 많은 사원들의 사번,이름(first_name),급여를 출력하시오.
+2)사번이 107인 사원과 부서가같고,167번의 급여보다 많은 사원들의 사번,이름(first_name),급여를 출력하시오.000
 SELECT employee_id, first_name, salary
 FROM employees
 WHERE (department_id, salary) IN (
@@ -27,22 +27,38 @@ WHERE (department_id, salary) IN (
                                                     FROM employees
                                                     WHERE employee_id = 167
                                                  );
-3) 급여평균보다 급여를 적게받는 사원들중 커미션을 받는 사원들의 사번,이름(first_name),급여,커미션 퍼센트를 출력하시오.
-SELECT employee_id, first_name, commission_pct
+3) 급여평균보다 급여를 적게받는 사원들중 커미션을 받는 사원들의 사번,이름(first_name),급여,커미션 퍼센트를 출력하시오.000
+SELECT employee_id, first_name, salary, commission_pct
 FROM employees
 WHERE commission_pct IS NOT NULL 
-AND avg(salary) < ANY ( 
-                        SELECT avg(salary)
-                        FROM employees
-                        WHERE commission_pct IS NOT NULL
-                        );
+AND avg(salary) > salary;
+
+
+SELECT avg(salary)
+FROM employees;
                                         
     
 4)각 부서의 최소급여가 20번 부서의 최소급여보다 많은 부서의 번호와 그부서의 최소급여를 출력하시오.
- 
-    
+SELECT e.department_id, j.min_salary
+FROM employees e, jobs j
+WHERE e.job_id = j.job_id
+AND j.min_salary  > ANY (
+                        SELECT j.min_salary
+                        FROM jobs j, employees e
+                        WHERE j.job_id = e.job_id
+                        AND e.department_id = 20
+                        );
+                        
 5) 사원번호가 177인 사원과 담당 업무가 같은 사원의 사원이름(first_name)과 담당업무(job_id)하시오.   
-
+SELECT e.first_name, j.job_id
+FROM employees e, jobs j
+WHERE e.job_id = j.job_id
+AND j.job_title = (
+                      SELECT j.job_title
+                      FROM jobs j, employees e
+                      WHERE  e.job_id = j.job_id
+                      AND e.employee_id = 177
+                    );
   
 6) 최소 급여를 받는 사원의 이름(first_name), 담당 업무(job_id) 및 급여(salary)를 표시하시오(그룹함수 사용).
 
