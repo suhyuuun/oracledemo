@@ -63,3 +63,90 @@ ALTER
 
 -- 생성 : CREATE TABLE, CREATE SEQUENCE, CREATE VIEW, CREATE INDEX
 -- 수정 : ALTER TABLE, ALTER SEQUENCE, ALTER VIEW, ALTER INDEX
+
+-- 테이블에 컬럼을 추가한다.
+ALTER TABLE student
+ADD loc varchar2(50); -- 추가하는 컬럼은 not null이면 안됨
+
+/*
+describe                           descending
+DESC table_name : 테이블 구조 확인,  DESC column_name : 내림차순
+*/
+
+DESC student;
+
+SELECT * FROM student;
+
+-- 데이터가 삽입되어있는 상태에서 실제값보다 줄일 수는 없다.
+-- ORA-01441: cannot decrease column length because some value is too big
+ALTER TABLE student
+MODIFY name varchar2(5);
+
+-- 저장된 데이터의 크기보다 같거나 크게 줄일 수 있다.
+ALTER TABLE student
+MODIFY name varchar2(9);
+
+-- 크기를 늘리는 것은 상관없다.
+ALTER TABLE student
+MODIFY name varchar2(30);
+
+DESC student;
+
+-- 테이블의 컬럼명을 수정한다.
+ALTER TABLE student
+RENAME COLUMN avg TO jumsu;
+
+DESC student;
+
+-- 왠만하면 바꾸지 않음
+
+-- 테이블명을 변경한다.
+ALTER TABLE student
+RENAME TO members;
+
+-- ORA-04043: student 객체가 존재하지 않습니다.
+DESC student;
+
+-- 정상수행
+DESC members;
+
+/*==============================================================================
+DELETE : 테이블에 저장된 데이터 모두를 삭제한다. (구조 그대로) AUTO COMMIT 발생안됨      -> selection에서만 제거
+TRUNCATE : 테이블에 저장된 데이터 모두를 삭제한다. (구조 그대로) AUTO COMMIT 발생       -> 물리적으로 제거
+DROP : 테이블 자체를 삭제한다. (AUTO COMMIT 발생)
+==============================================================================*/
+
+COMMIT;
+
+SELECT * FROM members;
+
+ -- 2개 행 이(가) 삭제되었습니다.
+DELETE FROM members;
+
+SELECT * FROM members;
+
+ROLLBACK;
+
+SELECT * FROM members;
+
+-- Table MEMBERS이(가) 잘렸습니다
+TRUNCATE TABLE members; -- AUTO COMMIT
+
+SELECT * FROM members;
+
+ROLLBACK;
+
+SELECT * FROM members; -- 아무것도 나오지 않음
+
+COMMIT;
+
+DROP TABLE members; -- AUTO COMMIT
+
+-- ORA-00942: table or view does not exist
+SELECT  * FROM members;
+
+ROLLBACK;
+
+-- ORA-00942: table or view does not exist
+SELECT * FROM members;
+
