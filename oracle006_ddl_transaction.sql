@@ -29,6 +29,7 @@ FROM employees
 WHERE 1=0; -- where절을 fasle로 만들어서 구조만 가지고 오고 싶은 경우
 
 -- 테이블의 구조
+-- describe
 DESC emp01;
 
 SELECT * FROM emp01;
