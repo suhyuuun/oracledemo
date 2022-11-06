@@ -4,8 +4,8 @@ num number constraint mem_num_pk primary key,
 name varchar2(30),
 instrument varchar2(30),
 day number (10),
-programComposer varchar2(30),
-price number(6)
+price number(6),
+programComposer varchar2(30)
 );
 
 -- 시퀀스 생성
@@ -16,7 +16,10 @@ CREATE SEQUENCE mem_num_seq
     NOCYCLE;
     
 -- 삽입
-INSERT INTO player(num, name, instrument, day, programComposer, price)
-VALUES(mem_num_seq.nextval, '조성진', '피아노', 20221029, '쇼팽', 100000); 
+INSERT INTO player(num, name, instrument, day, price ,programComposer)
+VALUES(mem_num_seq.nextval, '조성진', '피아노', 20221029, 100000, '쇼팽'); 
 
 SELECT * FROM player;
+
+DROP TABLE player;
+
