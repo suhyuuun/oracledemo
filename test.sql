@@ -33,3 +33,6 @@ WHERE e.department_id = d.department_id;
 SELECT d.department_id, d.department_name, e.employee_id, e.first_name, e.job_id
 FROM departments d, employees e
 WHERE d.department_id=e.department_id;
+
+SELECT * FROM mem
+ORDER BY num DESC;
