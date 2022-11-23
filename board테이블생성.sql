@@ -37,17 +37,32 @@ from board
 where num=2;
 
 
-select num, subject, ref, re_step, re_level
+select num, subject, ref, re_step, re_level,upload
 from board
-order by ref desc, re_step asc
+order by ref desc, re_step asc;
 
+/*
+                    (출력순서) (답변 들여쓰기용)
+ num  subject  ref  re_step  re_level
+ 1    제목글1    1      0        0
+ 2    제목글2    2      0        0
+ 3    제1_답1    1      1 -> 2   0 -> 1
+             (두번째 답변이 달렸을때) (답변처음달때)
+ 4    제1_답2    1      1        1
+ 
+ -> 제목글, 답변글 최신순으로 
+*/
+DELETE FROM board
+WHERE num =9;
+
+commit;
 
 
 select b.* 
 from (select rownum as rm, a.*
 	  from (select *
 	 	    from board
-            order by ref desc, re_step asc) a)b
+            order by ref desc, re_step asc)a)b
 where b.rm>=? and b.rm<=?           
 
 
