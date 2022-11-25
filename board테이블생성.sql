@@ -108,7 +108,7 @@ order by num
 select rownum, b.*
  from(select rownum as rm, a.*
  from(select * from board order by ref desc ,re_step asc)a)b
- where b.rm>=? and b.rm <=?
+ where b.rm>=? and b.rm <=?;
 
 
 
@@ -118,7 +118,8 @@ select rownum, b.*
 
 
 
-
+SELECT * FROM mem
+ORDER  BY num DESC;
 
 
 
