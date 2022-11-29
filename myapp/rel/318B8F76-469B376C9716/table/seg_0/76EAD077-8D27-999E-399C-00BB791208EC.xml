@@ -1,0 +1,59 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="76EAD077-8D27-999E-399C-00BB791208EC" name="board2">
+<createdBy>EZEN</createdBy>
+<createdTime>2022-11-29 09:27:34 UTC</createdTime>
+<ownerDesignName>myapp</ownerDesignName>
+<ordsAlias>table_1</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="num" id="BDCFC271-226B-F5AC-EF84-0EBFBDD8EF6A">
+<createdBy>EZEN</createdBy>
+<createdTime>2022-11-29 09:29:35 UTC</createdTime>
+<ownerDesignName>myapp</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>4</dataTypePrecision>
+<ownDataTypeParameters>,4,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="title" id="73AB0007-CA47-E65C-1607-3D8C345F2F73">
+<createdBy>EZEN</createdBy>
+<createdTime>2022-11-29 09:30:16 UTC</createdTime>
+<ownerDesignName>myapp</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="writer" id="C0CD0A4C-2F3F-A05D-94EF-41BD38606E83">
+<createdBy>EZEN</createdBy>
+<createdTime>2022-11-29 10:04:07 UTC</createdTime>
+<ownerDesignName>myapp</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="48607033-D113-6A31-CFF4-3178A9DFD425" name="board_PK">
+<createdBy>EZEN</createdBy>
+<createdTime>2022-11-29 09:29:35 UTC</createdTime>
+<ownerDesignName>myapp</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BDCFC271-226B-F5AC-EF84-0EBFBDD8EF6A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
