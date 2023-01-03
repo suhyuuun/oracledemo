@@ -30,23 +30,53 @@ values(board_num_seq.nextval, '홍길동','young@aaaa.com','제목1',sysdate,0,b
 
 commit;
 
+<<<<<<< HEAD
+=======
+SELECT * FROM board;
+>>>>>>> 0801bd63bf7c4998aa4b1c4d9c9c745d380e274b
 
 select num, readcount 
 from board
 where num=2;
 
 
+<<<<<<< HEAD
 select num, subject, ref, re_step, re_level
 from board
 order by ref desc, re_step asc
 
+=======
+select num, subject, ref, re_step, re_level,upload
+from board
+order by ref desc, re_step asc;
+
+/*
+                    (출력순서) (답변 들여쓰기용)
+ num  subject  ref  re_step  re_level
+ 1    제목글1    1      0        0
+ 2    제목글2    2      0        0
+ 3    제1_답1    1      1 -> 2   0 -> 1
+             (두번째 답변이 달렸을때) (답변처음달때)
+ 4    제1_답2    1      1        1
+ 
+ -> 제목글, 답변글 최신순으로 
+*/
+DELETE FROM board
+WHERE num =9;
+
+commit;
+>>>>>>> 0801bd63bf7c4998aa4b1c4d9c9c745d380e274b
 
 
 select b.* 
 from (select rownum as rm, a.*
 	  from (select *
 	 	    from board
+<<<<<<< HEAD
             order by ref desc, re_step asc) a)b
+=======
+            order by ref desc, re_step asc)a)b
+>>>>>>> 0801bd63bf7c4998aa4b1c4d9c9c745d380e274b
 where b.rm>=? and b.rm<=?           
 
 
@@ -61,7 +91,16 @@ select b.* from
 (select rownum as rm, a.* from(
   select num, ref, re_step,re_level from board
   order by ref desc, re_step asc) a)b
+<<<<<<< HEAD
 where b.rm >=1  and b.rm<=5
+=======
+where b.rm >=1  and b.rm<=5;
+
+select b.* from 
+(select rownum as rm, a.* from(select * from board
+                               order by ref desc, re_step asc)a)b
+where b.rm >=1  and b.rm<=5;
+>>>>>>> 0801bd63bf7c4998aa4b1c4d9c9c745d380e274b
 
 delete from board where num=23;
 
@@ -87,6 +126,7 @@ order by num
 select rownum, b.*
  from(select rownum as rm, a.*
  from(select * from board order by ref desc ,re_step asc)a)b
+<<<<<<< HEAD
  where b.rm>=? and b.rm <=?
 
 
@@ -98,6 +138,20 @@ select rownum, b.*
 
 
 
+=======
+ where b.rm>=? and b.rm <=?;
+
+
+
+
+
+
+
+
+
+SELECT * FROM mem
+ORDER  BY num DESC;
+>>>>>>> 0801bd63bf7c4998aa4b1c4d9c9c745d380e274b
 
 
 
