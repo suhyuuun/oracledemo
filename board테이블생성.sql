@@ -43,7 +43,7 @@ where num=2;
 <<<<<<< HEAD
 select num, subject, ref, re_step, re_level
 from board
-order by ref desc, re_step asc
+order by ref desc, re_step asc;
 
 =======
 select num, subject, ref, re_step, re_level,upload
