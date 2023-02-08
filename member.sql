@@ -16,6 +16,11 @@ CREATE SEQUENCE tb_user_id_seq
 INSERT INTO tb_user
 VALUES(tb_user_id_seq.nextval, 'a1234', 'a1234','a1234@daum.net',null, sysdate);
 
+DESC tb_user;
+
+ALTER TABLE tb_user
+MODIFY password varchar2(100);
+
 SELECT * FROM tb_user;
 
 COMMIT;
