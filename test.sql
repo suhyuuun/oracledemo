@@ -13,7 +13,7 @@ CREATE TABLE mem(
 -- 시퀀스 생성
 CREATE SEQUENCE mem_num_seq
     START WITH 1
-    INCREMENT BY 1
+    INCREMENT BY 1+
     NOCACHE
     NOCYCLE;
     
