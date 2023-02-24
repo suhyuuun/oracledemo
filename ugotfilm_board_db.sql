@@ -1,34 +1,35 @@
 
--- »èÁ¦
+-- ì‚­ì œ
 drop table ugotfilm_notice_board;
 drop sequence ugotfilm_notice_board_seq;
 drop table ugotfilm_notice_comment;
 drop sequence ugotfilm_notice_comment_seq;
 --------------------------------------------------
--- °øÁö °Ô½ÃÆÇ --------------------------------------
--- °øÁö°Ô½ÃÆÇ Å×ÀÌºí
+-- ê³µì§€ ê²Œì‹œíŒ --------------------------------------
+-- ê³µì§€ê²Œì‹œíŒ í…Œì´ë¸”
 create table ugotfilm_notice_board(
-   	num number,                     --±Û¹øÈ£
-   	writer number,            --ÀÛ¼ºÀÚ(À¯ÀúÄÚµå)
-	subject varchar2(1000),           --±ÛÁ¦¸ñ
-	reg_date date,                 --ÀÛ¼ºÀÏ
-	readcount number default 0,     --Á¶È¸¼ö
-	ref number,                     -- ´ä±Û ±âÁØ º»±Û
+   	num number,                     --ê¸€ë²ˆí˜¸
+   	writer number,            --ì‘ì„±ì(ìœ ì €ì½”ë“œ)
+	subject varchar2(1000),           --ê¸€ì œëª©
+	reg_date date,                 --ì‘ì„±ì¼
+	readcount number default 0,     --ì¡°íšŒìˆ˜
+	ref number,                     -- ë‹µê¸€ ê¸°ì¤€ ë³¸ê¸€
 	re_step number,                 -- 
 	re_level number,                -- 
-	content varchar2(4000),                --±Û³»¿ë
+	content varchar2(4000),                --ê¸€ë‚´ìš©
 	ip varchar2(20),                --ip
-    upload varchar2(300)               --¾÷·Îµå ÆÄÀÏ
+    upload varchar2(300)               --ì—…ë¡œë“œ íŒŒì¼
 );
--- °øÁö°Ô½ÃÆÇ ½ÃÄö½º
+-- ê³µì§€ê²Œì‹œíŒ ì‹œí€€ìŠ¤
 create sequence ugotfilm_notice_board_seq start with 1 increment by 1 nocache nocycle;
 
--- °øÁö°Ô½ÃÆÇ »ùÇÃ
-insert into ugotfilm_notice_board 
-values(ugotfilm_notice_board_seq.nextval, 1, 'Á¦¸ñ1',sysdate,0,ugotfilm_notice_board_seq.nextval,
-0,0,'³»¿ë Å×½ºÆ®.......','127.0.0.1','sample.txt');
 
--- °øÁö°Ô½ÃÆÇ ´ñ±Û Å×ÀÌºí
+-- ê³µì§€ê²Œì‹œíŒ ìƒ˜í”Œ
+insert into ugotfilm_notice_board 
+values(ugotfilm_notice_board_seq.nextval, 1, 'ì œëª©1',sysdate,0,ugotfilm_notice_board_seq.nextval,
+0,0,'ë‚´ìš© í…ŒìŠ¤íŠ¸.......','127.0.0.1','sample.txt');
+
+-- ê³µì§€ê²Œì‹œíŒ ëŒ“ê¸€ í…Œì´ë¸”
 create table ugotfilm_notice_comment(            
         pnum number,                       
         num number,                        
@@ -38,15 +39,15 @@ create table ugotfilm_notice_comment(
         ip varchar2(20)                              
 );
 
--- °øÁö°Ô½ÃÆÇ ´ñ±Û ½ÃÄö½º
+-- ê³µì§€ê²Œì‹œíŒ ëŒ“ê¸€ ì‹œí€€ìŠ¤
 create sequence ugotfilm_notice_comment_seq start with 1 increment by 1 nocache nocycle;
 
--- °øÁö°Ô½ÃÆÇ ´ñ±Û »ùÇÃ
+-- ê³µì§€ê²Œì‹œíŒ ëŒ“ê¸€ ìƒ˜í”Œ
 INSERT INTO ugotfilm_notice_comment(pnum, num, writer, reg_date, subject, ip)
-values(1, ugotfilm_notice_comment_seq.nextval, 1,sysdate,'´ñ±Û Å×½ºÆ®.......','127.0.0.1');
+values(1, ugotfilm_notice_comment_seq.nextval, 1,sysdate,'ëŒ“ê¸€ í…ŒìŠ¤íŠ¸.......','127.0.0.1');
 
 commit;
 
----È®ÀÎ
+---í™•ì¸
 select * from ugotfilm_notice_board;
 select * from ugotfilm_notice_comment;
