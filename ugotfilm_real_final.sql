@@ -35,10 +35,17 @@ create table ugotfilm_movie(
 
 insert into ugotfilm_movie values (505642, '블랙 팬서: 와칸다 포에버', 'url');
 
+<<<<<<< HEAD
 SELECT * FROM ugotfilm_movie;
 
 commit;
 
+=======
+commit;
+
+SELECT * FROM ugotfilm_movie;
+
+>>>>>>> 2ffb82ecb9ef2dafdc4915b97a6ce17ca4ef50ea
 -- 장르 정보 테이블
 drop table ugotfilm_genre;
 
@@ -94,6 +101,11 @@ create table ugotfilm_director(
 
 insert into ugotfilm_director values (1056121, 'Ryan Coogler', 'url');
 
+<<<<<<< HEAD
+=======
+commit;
+
+>>>>>>> 2ffb82ecb9ef2dafdc4915b97a6ce17ca4ef50ea
 SELECT * FROM ugotfilm_cast;
 SELECT * FROM ugotfilm_director;
 
