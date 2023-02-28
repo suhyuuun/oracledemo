@@ -18,9 +18,12 @@ DROP SEQUENCE ugotfilm_user_usercode_seq;
 
 create sequence ugotfilm_user_usercode_seq start with 1 increment by 1 nocache nocycle;
 
-SELECT * FROM ugotfilm_user;
+-- 회원 정보 샘플
 
--- insert 추후 수정
+insert into ugotfilm_user values (ugotfilm_user_usercode_seq.nextval, 'user1', '123', 'nick1', sysdate, '남', 1996, 'ROLE_MEMBER');
+insert into ugotfilm_user values (ugotfilm_user_usercode_seq.nextval, 'user2', '123', 'nick2', sysdate, '여', 1996, 'ROLE_MEMBER');
+
+SELECT * FROM ugotfilm_user;
 
 -- 영화 정보 테이블
 drop table ugotfilm_movie;
@@ -35,20 +38,8 @@ create table ugotfilm_movie(
 
 insert into ugotfilm_movie values (505642, '블랙 팬서: 와칸다 포에버', 'url');
 
-<<<<<<< HEAD
 SELECT * FROM ugotfilm_movie;
 
-commit;
-
-=======
-commit;
-
-<<<<<<< HEAD
-=======
-SELECT * FROM ugotfilm_movie;
-
->>>>>>> 2ffb82ecb9ef2dafdc4915b97a6ce17ca4ef50ea
->>>>>>> ae3116990dbfdb7efb68626a4edb3ccd4403e45c
 -- 장르 정보 테이블
 drop table ugotfilm_genre;
 
@@ -76,39 +67,38 @@ insert into ugotfilm_genre VALUES (878, 'SF');
 insert into ugotfilm_genre VALUES (10752, '전쟁');
 insert into ugotfilm_genre VALUES (37, '서부');
 
+SELECT * FROM ugotfilm_genre;
+
 -- 인물 정보 저장 테이블
 
 --배우
-DROP TABLE ugotfilm_cast;
+DROP TABLE ugotfilm_person_cast;
 
-CREATE TABLE ugotfilm_cast(
-	personcode NUMBER, -- 사람 고유 번호
+CREATE TABLE ugotfilm_person_cast(
+	personcode_cast NUMBER, -- 사람 고유 번호
 	name varchar2(100), -- 사람 이름
+	jbo varchar2(100), -- 사람 직업 ('Acting')
 	profile_url varchar2(100) -- 사람 이미지
 );
 
-INSERT INTO ugotfilm_cast VALUES (172069, 'Chadwick Aaron Boseman', 'url');
+INSERT INTO ugotfilm_person_cast VALUES (172069, 'Chadwick Aaron Boseman', 'Acting', 'url');
 
 -- 감독
-drop table ugotfilm_director;
+drop table ugotfilm_person_crew;
 
-create table ugotfilm_director(
-	personcode NUMBER, -- 사람 고유 번호
+create table ugotfilm_person_crew(
+	personcode_crew NUMBER, -- 사람 고유 번호
 	name varchar2(100), -- 사람 이름
+	job varchar2(100), -- 사람 직업 ('Directing')
 	profile_url varchar2(100) -- 사람 이미지 url
 );
 
 -- 인물 정보 샘플
 
-insert into ugotfilm_director values (1056121, 'Ryan Coogler', 'url');
+insert into ugotfilm_person_crew values (1056121, 'Ryan Coogler', 'Directing', 'url');
 
-<<<<<<< HEAD
-=======
-commit;
-
->>>>>>> 2ffb82ecb9ef2dafdc4915b97a6ce17ca4ef50ea
-SELECT * FROM ugotfilm_cast;
-SELECT * FROM ugotfilm_director;
+SELECT * FROM ugotfilm_person_cast;
+SELECT * FROM ugotfilm_person_crew;
 
 -- 유저 선택 기록 (영화)
 drop table ugotfilm_movie_choice;
@@ -119,19 +109,10 @@ create table ugotfilm_movie_choice(
 	choice_date date -- 선택 날짜
 );
 
--- 유저 선택 기록 (감독)
-drop table ugotfilm_director_choice;
+-- 유저 선택 기록 (인물)
+drop table ugotfilm_person_choice;
 
-create table ugotfilm_director_choice(
-	usercode number, -- 유저 번호
-	personcode number, -- 사람 번호
-	choice_date date -- 선택 날짜
-);
-
--- 유저 선택 기록 (배우)
-drop table ugotfilm_cast_choice;
-
-create table ugotfilm_cast_choice(
+create table ugotfilm_person_choice(
 	usercode number, -- 유저 번호
 	personcode number, -- 사람 번호
 	choice_date date -- 선택 날짜
@@ -148,8 +129,7 @@ create table ugotfilm_genre_choice(
 
 -- 유저 선택 샘플
 INSERT INTO ugotfilm_movie_choice VALUES (1, 505642, sysdate); -- 영화
-INSERT INTO ugotfilm_director_choice VALUES (1, 1056121, sysdate); -- 감독
-INSERT INTO ugotfilm_cast_choice VALUES (1, 1056121, sysdate); -- 배우
+INSERT INTO ugotfilm_person_choice VALUES (1, 1056121, sysdate); -- 사람
 INSERT INTO ugotfilm_genre_choice VALUES (1, 28, sysdate); -- 장르
 INSERT INTO ugotfilm_genre_choice VALUES (1, 12, sysdate); -- 장르
 INSERT INTO ugotfilm_genre_choice VALUES (1, 878, sysdate); -- 장르
@@ -157,8 +137,7 @@ INSERT INTO ugotfilm_genre_choice VALUES (1, 878, sysdate); -- 장르
 commit;
 
 SELECT * FROM ugotfilm_movie_choice;
-SELECT * FROM ugotfilm_cast_choice;
-SELECT * FROM ugotfilm_director_choice;
+SELECT * FROM ugotfilm_person_choice;
 SELECT * FROM ugotfilm_genre_choice;
 
 -- 다양한 기준의 정보 샘플
@@ -197,5 +176,15 @@ WHERE a.usercode = b.usercode
 AND a.usercode = 1
 GROUP BY GENRECODE;
 
--- insert하고 꼭 commit 넣어주세용
-commit;
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,52 +1,54 @@
 
--- È¸¿ø Á¤º¸ Å×ÀÌºí
+-- íšŒì› ì •ë³´ í…Œì´ë¸”
 CREATE TABLE ugotfilm_user(
     usercode number,
-    id varchar2(1000),
+    username varchar2(1000),
     password varchar2(1000),
     nickname varchar2(1000),
     joindate Date,
     gender varchar2(10),
-    birth number
+    birth number,
+    authRole varchar2(20)
 );
 
--- È¸¿ø À¯ÀúÄÚµå ½ÃÄö½º
+drop table ugotfilm_user;
+
+commit;
+
+-- íšŒì› ìœ ì €ì½”ë“œ ì‹œí€€ìŠ¤
 CREATE SEQUENCE ugotfilm_user_usercode_seq START with 1 increment by 1 nocache nocycle;
 
--- À¯Àú°¡ ¼±ÅÃÇÑ ¿µÈ­ ±â·Ï
+-- ìœ ì €ê°€ ì„ íƒí•œ ì˜í™” ê¸°ë¡
 CREATE TABLE ugotfilm_movie_choice(
     usercode number,
     moviecode number,
     choicedate date
 );
 
--- À¯Àú°¡ ¼±ÅÃÇÑ ÀÎ¹° ±â·Ï
+-- ìœ ì €ê°€ ì„ íƒí•œ ì¸ë¬¼ ê¸°ë¡
 CREATE TABLE ugotfilm_person_choice(
     usercode number,
     personcode number,
     choicedate date
 );
 
--- À¯Àú°¡ ¼±ÅÃÇÑ Àå¸£ ±â·Ï
+-- ìœ ì €ê°€ ì„ íƒí•œ ì¥ë¥´ ê¸°ë¡
 CREATE TABLE ugotfilm_genre_choice(
     usercode number,
     genrecode number,
     choicedate date
 );
 
--- ¿µÈ­ Á¤º¸ ÀúÀå Å×ÀÌºí
+-- ì˜í™” ì •ë³´ ì €ì¥ í…Œì´ë¸”
 CREATE TABLE ugotfilm_movie(
     moviecode number,
     title varchar2(100),
-    overview varchar2(1000),
-    release_date date,
-    vote_average varchar2(100),
-    genre_ids varchar2(100),
-    poster_url varchar2(100)
-
+    poster_path varchar2(100),
+    count_num number,
+    movie_id number
 );
 
--- ÀÎ¹° Á¤º¸ ÀúÀå Å×ÀÌºí
+-- ì¸ë¬¼ ì •ë³´ ì €ì¥ í…Œì´ë¸”
 CREATE TABLE ugotfilm_person(
     personcode number,       -- id
     name varchar2(100),     -- name
@@ -54,33 +56,33 @@ CREATE TABLE ugotfilm_person(
     profile_path varchar2(200) -- profile_path
 );
 
--- Àå¸£ Á¤º¸ ÀúÀå Å×ÀÌºí
+-- ì¥ë¥´ ì •ë³´ ì €ì¥ í…Œì´ë¸”
 CREATE TABLE ugotfilm_genre(
     genrecode number,       -- id
     name varchar2(100)     -- name
 );
 
--- »ùÇÃ
--- È¸¿ø Á¤º¸ »ùÇÃ
-insert INTO ugotfilm_user VALUES (1, 'user1', '0000', 'À¯Àú1', sysdate, '³²', 2000);
-insert INTO ugotfilm_user VALUES (2, 'user2', '0000', 'À¯Àú2', sysdate, '¿©', 1990);
-insert INTO ugotfilm_user VALUES (3, 'user3', '0000', 'À¯Àú3', sysdate, '³²', 2010);
+-- ìƒ˜í”Œ
+-- íšŒì› ì •ë³´ ìƒ˜í”Œ
+insert INTO ugotfilm_user VALUES (1, 'user1', '0000', 'ìœ ì €1', sysdate, 'ë‚¨', 2000);
+insert INTO ugotfilm_user VALUES (2, 'user2', '0000', 'ìœ ì €2', sysdate, 'ì—¬', 1990);
+insert INTO ugotfilm_user VALUES (3, 'user3', '0000', 'ìœ ì €3', sysdate, 'ë‚¨', 2010);
 commit;
 
--- ¿µÈ­ Á¤º¸ »ùÇÃ
-insert INTO ugotfilm_movie VALUES (1, 'Å×½ºÆ®1', 'ÆÇÅ¸Áö ¿µÈ­³»¿ë', sysdate, 4.5, 1, 'Æ÷½ºÅÍ °æ·Î1');    --Àå¸£ 1 ÆÇÅ¸Áö 2 °øÆ÷, 3 ´ÙÅ¥
-insert INTO ugotfilm_movie VALUES (2, 'Å×½ºÆ®2', '°øÆ÷¿µÈ­', sysdate, 4.0, 2, 'Æ÷½ºÅÍ °æ·Î2');
-insert INTO ugotfilm_movie VALUES (3, 'Å×½ºÆ®3', '´ÙÅ¥ ¿µÈ­1', sysdate, 4.3, 3, 'Æ÷½ºÅÍ °æ·Î3');
-insert INTO ugotfilm_movie VALUES (4, 'Å×½ºÆ®4', '´ÙÅ¥ ¿µÈ­2', sysdate, 4.3, 3, 'Æ÷½ºÅÍ °æ·Î4');
+-- ì˜í™” ì •ë³´ ìƒ˜í”Œ
+insert INTO ugotfilm_movie VALUES (1, 'í…ŒìŠ¤íŠ¸1', 'íŒíƒ€ì§€ ì˜í™”ë‚´ìš©', sysdate, 4.5, 1, 'í¬ìŠ¤í„° ê²½ë¡œ1');    --ì¥ë¥´ 1 íŒíƒ€ì§€ 2 ê³µí¬, 3 ë‹¤í
+insert INTO ugotfilm_movie VALUES (2, 'í…ŒìŠ¤íŠ¸2', 'ê³µí¬ì˜í™”', sysdate, 4.0, 2, 'í¬ìŠ¤í„° ê²½ë¡œ2');
+insert INTO ugotfilm_movie VALUES (3, 'í…ŒìŠ¤íŠ¸3', 'ë‹¤í ì˜í™”1', sysdate, 4.3, 3, 'í¬ìŠ¤í„° ê²½ë¡œ3');
+insert INTO ugotfilm_movie VALUES (4, 'í…ŒìŠ¤íŠ¸4', 'ë‹¤í ì˜í™”2', sysdate, 4.3, 3, 'í¬ìŠ¤í„° ê²½ë¡œ4');
 
--- ÀÎ¹° Á¤º¸ »ùÇÃ
+-- ì¸ë¬¼ ì •ë³´ ìƒ˜í”Œ
 
--- Àå¸£ Á¤º¸ »ùÇÃ
-insert INTO ugotfilm_genre VALUES (1, 'ÆÇÅ¸Áö');
-insert INTO ugotfilm_genre VALUES (2, '°øÆ÷');
-insert INTO ugotfilm_genre VALUES (3, '´ÙÅ¥');
+-- ì¥ë¥´ ì •ë³´ ìƒ˜í”Œ
+insert INTO ugotfilm_genre VALUES (1, 'íŒíƒ€ì§€');
+insert INTO ugotfilm_genre VALUES (2, 'ê³µí¬');
+insert INTO ugotfilm_genre VALUES (3, 'ë‹¤í');
 
--- ¼±ÅÃ Á¤º¸ »ùÇÃ(¿µÈ­ Á¤º¸ Âü°íÇØ¼­ ³ÖÀ¸¸é µÈ´Ù)
+-- ì„ íƒ ì •ë³´ ìƒ˜í”Œ(ì˜í™” ì •ë³´ ì°¸ê³ í•´ì„œ ë„£ìœ¼ë©´ ëœë‹¤)
 insert INTO ugotfilm_movie_choice VALUES (1, 3, sysdate);
 insert INTO ugotfilm_genre_choice VALUES (1, 2, sysdate);
 insert INTO ugotfilm_person_choice VALUES (2, 3, sysdate);
@@ -92,12 +94,12 @@ select * from ugotfilm_genre_choice;
 select * from ugotfilm_person_choice;
 
 
--- ´Ù¾çÇÑ ±âÁØÀÇ Á¤º¸ »ùÇÃ
---1¹ø À¯Àú°¡ °¡Àå ¼±È£ÇÏ´Â ¿µÈ­ Àå¸£(¸¹ÀÌ Å¬¸¯ÇÑ ¼ø)
+-- ë‹¤ì–‘í•œ ê¸°ì¤€ì˜ ì •ë³´ ìƒ˜í”Œ
+--1ë²ˆ ìœ ì €ê°€ ê°€ì¥ ì„ í˜¸í•˜ëŠ” ì˜í™” ì¥ë¥´(ë§ì´ í´ë¦­í•œ ìˆœ)
 select g.name, u.* from (select genrecode, count(genrecode) as count from ugotfilm_genre_choice where usercode=1 group by genrecode) u 
 left join ugotfilm_genre g on g.genrecode=u.genrecode order by count desc;
 
 
--- 1¹ø À¯Àú°¡ Å¬¸¯ÇÑ ¿µÈ­ ¸®½ºÆ®(¸¹ÀÌ Å¬¸¯ÇÑ ¼ø)
+-- 1ë²ˆ ìœ ì €ê°€ í´ë¦­í•œ ì˜í™” ë¦¬ìŠ¤íŠ¸(ë§ì´ í´ë¦­í•œ ìˆœ)
 select m.* from (select moviecode, count(moviecode) as count from ugotfilm_movie_choice where usercode=1 group by moviecode) u 
 left join ugotfilm_movie m on m.moviecode=u.moviecode order by count desc;

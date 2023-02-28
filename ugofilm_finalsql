@@ -20,6 +20,14 @@ create sequence ugotfilm_user_usercode_seq start with 1 increment by 1 nocache n
 
 SELECT * FROM ugotfilm_user;
 
+UPDATE ugotfilm_user SET nickname ='수현';
+
+UPDATE ugotfilm_user SET gender ='여';
+UPDATE ugotfilm_user SET birth = 1997;
+
+
+commit;
+
 -- insert 추후 수정
 
 -- 영화 정보 테이블
@@ -35,20 +43,8 @@ create table ugotfilm_movie(
 
 insert into ugotfilm_movie values (505642, '블랙 팬서: 와칸다 포에버', 'url');
 
-<<<<<<< HEAD
 SELECT * FROM ugotfilm_movie;
 
-commit;
-
-=======
-commit;
-
-<<<<<<< HEAD
-=======
-SELECT * FROM ugotfilm_movie;
-
->>>>>>> 2ffb82ecb9ef2dafdc4915b97a6ce17ca4ef50ea
->>>>>>> ae3116990dbfdb7efb68626a4edb3ccd4403e45c
 -- 장르 정보 테이블
 drop table ugotfilm_genre;
 
@@ -76,6 +72,8 @@ insert into ugotfilm_genre VALUES (878, 'SF');
 insert into ugotfilm_genre VALUES (10752, '전쟁');
 insert into ugotfilm_genre VALUES (37, '서부');
 
+SELECT * FROM ugotfilm_genre;
+
 -- 인물 정보 저장 테이블
 
 --배우
@@ -102,11 +100,6 @@ create table ugotfilm_director(
 
 insert into ugotfilm_director values (1056121, 'Ryan Coogler', 'url');
 
-<<<<<<< HEAD
-=======
-commit;
-
->>>>>>> 2ffb82ecb9ef2dafdc4915b97a6ce17ca4ef50ea
 SELECT * FROM ugotfilm_cast;
 SELECT * FROM ugotfilm_director;
 
@@ -199,3 +192,9 @@ GROUP BY GENRECODE;
 
 -- insert하고 꼭 commit 넣어주세용
 commit;
+
+
+SELECT * FROM ugotfilm_movie;
+
+SELECT * FROM ugotfilm_director;
+
