@@ -1,3 +1,5 @@
+select * from v$version;
+
 -- 회원 정보 테이블
 drop table ugotfilm_user;
 
@@ -19,7 +21,11 @@ create sequence ugotfilm_user_usercode_seq start with 1 increment by 1 nocache n
 
 -- insert 추후 수정
 
-SELECT * FROM ugotfilm_user;
+SELECT * FROM ugotfilm_user order by usercode;
+
+update ugotfilm_user SET authrole = 'ROLE_ADMIN' where usercode = 10;
+
+commit;
 
 commit;
 
@@ -165,3 +171,9 @@ create sequence ugotfilm_movie_comment_seq start with 1 increment by 1 nocache n
 commit;
 
 select * from ugotfilm_movie_comment;
+
+select * from ugotfilm_movie_choice where usercode = 6 order by choice_date desc;
+select * from ugotfilm_genre_choice where usercode = 5 order by choice_date desc;
+
+select * from ugotfilm_cast_choice where usercode = 6 order by choice_date desc;
+select * from ugotfilm_director_choice where usercode = 5 order by choice_date desc;
